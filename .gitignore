@@ -60,3 +60,6 @@ htmlcov/
 # Backup files
 *.bak
 *.tmp
+
+# Raw camera photo folders
+parents meet pics/
