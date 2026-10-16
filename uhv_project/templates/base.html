@@ -604,7 +604,8 @@
         </div>
     </footer>
 
-    <!-- Event Announcement Flyer Modal -->
+    <!-- Event Announcement Flyer Modal (Only on Homepage) -->
+    {% if request.path == '/' %}
     <div id="flyer-modal"
         class="fixed inset-0 z-[150] flex items-center justify-center p-3 sm:p-4 md:p-6 transition-all duration-300 opacity-0 pointer-events-none"
         role="dialog"
@@ -665,7 +666,7 @@
             }
         }
 
-        // Open flyer automatically on site load
+        // Open flyer automatically only when opening the website on the homepage
         document.addEventListener('DOMContentLoaded', function () {
             setTimeout(openFlyerModal, 400);
         });
@@ -677,6 +678,7 @@
             }
         });
     </script>
+    {% endif %}
 
     <!-- Reflection Popup Modal (Secondary) -->
     {% if daily_scenario %}
