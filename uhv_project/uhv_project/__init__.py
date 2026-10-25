@@ -1,3 +1,0 @@
-"""
-UHV Project Configuration
-"""

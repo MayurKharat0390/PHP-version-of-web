@@ -1,1 +1,1 @@
-web: cd uhv_project && gunicorn uhv_project.wsgi --log-file -
+web: php -S 0.0.0.0:$PORT router.php
