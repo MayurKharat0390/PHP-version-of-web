@@ -18,9 +18,70 @@ use App\Models\ContactMessage;
 
 class AdminController {
     public function __construct() {
-        if (!Auth::check() || !Auth::isAdmin()) {
-            redirect('login', ['error' => 'Access denied. Administrator privileges required.']);
+        $uri = trim(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+        if (!empty($_GET['route'])) {
+            $uri = trim($_GET['route'], '/');
         }
+
+        if (str_ends_with($uri, 'admin/login')) {
+            return;
+        }
+
+        if (!Auth::check() || !Auth::isAdmin()) {
+            redirect('admin/login', ['error' => 'Administrator credentials required to access this area.']);
+        }
+    }
+
+    public function showLogin(): void {
+        if (Auth::check() && Auth::isAdmin()) {
+            redirect('admin');
+            return;
+        }
+
+        View::render('admin.login', [
+            'error' => $_GET['error'] ?? null,
+            'title' => 'Admin Sign In'
+        ]);
+    }
+
+    public function login(): void {
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
+
+        if (empty($username) || empty($password)) {
+            View::render('admin.login', [
+                'error' => 'Please provide both username and password.',
+                'username' => $username,
+                'title' => 'Admin Sign In'
+            ]);
+            return;
+        }
+
+        if (Auth::attempt($username, $password)) {
+            if (Auth::isAdmin()) {
+                redirect('admin');
+                return;
+            } else {
+                Auth::logout();
+                View::render('admin.login', [
+                    'error' => 'Access denied. Account does not have administrator privileges.',
+                    'username' => $username,
+                    'title' => 'Admin Sign In'
+                ]);
+                return;
+            }
+        }
+
+        View::render('admin.login', [
+            'error' => 'Invalid administrator username or password.',
+            'username' => $username,
+            'title' => 'Admin Sign In'
+        ]);
+    }
+
+    public function logout(): void {
+        Auth::logout();
+        redirect('');
     }
 
     public function index(): void {

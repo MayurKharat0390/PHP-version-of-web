@@ -10,7 +10,10 @@ if (!function_exists('base_url')) {
         $base = ($dir === '/' || $dir === '\\') ? '' : rtrim(str_replace('\\', '/', $dir), '/');
         
         $path = ltrim($path, '/');
-        return $base . ($path ? '/' . $path : '');
+        if ($path === '') {
+            return $base !== '' ? $base : '/';
+        }
+        return ($base !== '' ? $base : '') . '/' . $path;
     }
 }
 

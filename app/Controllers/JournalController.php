@@ -8,7 +8,7 @@ use App\Models\Journal;
 class JournalController {
     public function __construct() {
         if (!Auth::check()) {
-            redirect('login', ['error' => 'Please log in to access your journal.']);
+            redirect('');
         }
     }
 

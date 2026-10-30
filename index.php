@@ -84,14 +84,18 @@ $router->get('/faculty', 'FacultyController@index');
 $router->get('/progress', 'ProgressController@index');
 $router->get('/dashboard', 'ProgressController@index');
 
-// --- Authentication & User Profile ---
-$router->get('/login', 'AuthController@showLogin');
-$router->post('/login', 'AuthController@login');
-$router->get('/signup', 'AuthController@showSignup');
-$router->post('/signup', 'AuthController@signup');
-$router->get('/logout', 'AuthController@logout');
-$router->post('/logout', 'AuthController@logout');
-$router->get('/profile', 'ProfileController@index');
+// --- Admin Authentication & Logout ---
+$router->get('/admin/login', 'AdminController@showLogin');
+$router->post('/admin/login', 'AdminController@login');
+$router->get('/logout', 'AdminController@logout');
+$router->post('/logout', 'AdminController@logout');
+
+// --- Removed Public Auth (Graceful Redirects to Home) ---
+$router->get('/login', function() { redirect(''); });
+$router->post('/login', function() { redirect(''); });
+$router->get('/signup', function() { redirect(''); });
+$router->post('/signup', function() { redirect(''); });
+$router->get('/profile', function() { redirect(''); });
 
 // --- Admin Control Panel ---
 $router->get('/admin', 'AdminController@index');

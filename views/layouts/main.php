@@ -304,28 +304,19 @@
 
                 <!-- User Actions & Visitor Counter -->
                 <div class="hidden md:flex items-center space-x-3">
-                    <?php if ($isLoggedIn): ?>
+                    <?php if ($isAdmin): ?>
                         <div class="relative" x-data="{ userMenu: false }">
-                            <button @click="userMenu = !userMenu" class="flex items-center gap-2 px-4 py-2 glass-strong rounded-full border border-primary-200 text-sm font-bold text-gray-800 hover:shadow-md transition-all">
-                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                                <span><?= e($currentUser['username']) ?></span>
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <button @click="userMenu = !userMenu" class="flex items-center gap-2 px-4 py-2 glass-strong rounded-full border border-purple-200 text-xs font-bold text-purple-800 hover:shadow-md transition-all">
+                                <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                                <span>Admin</span>
+                                <svg class="w-3.5 h-3.5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div x-show="userMenu" @click.away="userMenu = false" class="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl py-2 z-50 border border-gray-100" style="display: none;">
-                                <a href="<?= url('profile') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 font-medium">My Profile</a>
-                                <a href="<?= url('journals') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 font-medium">My Journal</a>
-                                <a href="<?= url('dashboard') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 font-medium">Progress & Streaks</a>
-                                <?php if ($isAdmin): ?>
-                                    <div class="border-t border-gray-100 my-1"></div>
-                                    <a href="<?= url('admin') ?>" class="block px-4 py-2 text-sm text-purple-700 hover:bg-purple-50 font-bold">⚙️ Admin Panel</a>
-                                <?php endif; ?>
+                            <div x-show="userMenu" @click.away="userMenu = false" class="absolute right-0 mt-2 w-44 bg-white rounded-2xl shadow-2xl py-2 z-50 border border-gray-100" style="display: none;">
+                                <a href="<?= url('admin') ?>" class="block px-4 py-2 text-xs text-purple-700 hover:bg-purple-50 font-bold">⚙️ Admin Panel</a>
                                 <div class="border-t border-gray-100 my-1"></div>
-                                <a href="<?= url('logout') ?>" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium">Sign Out</a>
+                                <a href="<?= url('logout') ?>" class="block px-4 py-2 text-xs text-red-600 hover:bg-red-50 font-medium">Sign Out</a>
                             </div>
                         </div>
-                    <?php else: ?>
-                        <a href="<?= url('login') ?>" class="px-5 py-2 text-xs font-bold uppercase tracking-wider text-primary-700 hover:text-primary-800 glass rounded-full transition-all">Sign In</a>
-                        <a href="<?= url('signup') ?>" class="px-5 py-2 text-xs font-bold uppercase tracking-wider text-white bg-primary-600 hover:bg-primary-500 rounded-full shadow-md transition-all">Join Us</a>
                     <?php endif; ?>
 
                     <!-- Visitor Counter -->
@@ -374,21 +365,13 @@
             <a href="<?= url('faculty') ?>" class="text-lg font-bold text-gray-800 hover:text-primary-600">Faculty Mentors</a>
             <a href="<?= url('contact') ?>" class="text-lg font-bold text-gray-800 hover:text-primary-600">Contact Us</a>
 
-            <div class="border-t border-gray-200 pt-4">
-                <?php if ($isLoggedIn): ?>
-                    <p class="text-xs uppercase font-extrabold text-gray-400 mb-2">Signed in as <?= e($currentUser['username']) ?></p>
-                    <a href="<?= url('profile') ?>" class="block py-1.5 text-base font-bold text-gray-800 hover:text-primary-600">My Profile</a>
-                    <a href="<?= url('journals') ?>" class="block py-1.5 text-base font-bold text-gray-800 hover:text-primary-600">My Journal</a>
-                    <a href="<?= url('dashboard') ?>" class="block py-1.5 text-base font-bold text-gray-800 hover:text-primary-600">Progress</a>
-                    <?php if ($isAdmin): ?>
-                        <a href="<?= url('admin') ?>" class="block py-1.5 text-base font-bold text-purple-700">⚙️ Admin Panel</a>
-                    <?php endif; ?>
+            <?php if ($isAdmin): ?>
+                <div class="border-t border-gray-200 pt-4">
+                    <p class="text-xs uppercase font-extrabold text-purple-600 mb-2">Admin Portal</p>
+                    <a href="<?= url('admin') ?>" class="block py-1.5 text-base font-bold text-purple-700">⚙️ Admin Panel</a>
                     <a href="<?= url('logout') ?>" class="block py-1.5 text-base font-bold text-red-600">Sign Out</a>
-                <?php else: ?>
-                    <a href="<?= url('login') ?>" class="block py-2 text-base font-bold text-primary-600">Sign In</a>
-                    <a href="<?= url('signup') ?>" class="block py-2 text-base font-bold text-gray-800">Join Us</a>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

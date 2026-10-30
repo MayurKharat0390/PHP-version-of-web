@@ -8,7 +8,7 @@ use App\Core\View;
 class ProfileController {
     public function __construct() {
         if (!Auth::check()) {
-            redirect('login', ['error' => 'Please sign in to view your profile.']);
+            redirect('');
         }
     }
 

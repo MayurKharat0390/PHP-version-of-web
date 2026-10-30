@@ -13,8 +13,10 @@ class ReflectionController {
     public function dailyCard(): void {
         $scenario = Reflection::getTodayScenario();
         $user = Auth::user();
+        $today = date('Y-m-d');
+        $sessionKey = 'reflected_today_' . $today;
 
-        if ($user && Reflection::hasReflectedToday($user['id'])) {
+        if (($user && Reflection::hasReflectedToday($user['id'])) || !empty($_SESSION[$sessionKey])) {
             View::render('reflections.already_completed', [
                 'scenario' => $scenario,
                 'message' => "You've already reflected today!"
@@ -48,8 +50,10 @@ class ReflectionController {
 
         $user = Auth::user();
         $userId = $user ? (int)$user['id'] : null;
+        $today = date('Y-m-d');
+        $sessionKey = 'reflected_today_' . $today;
 
-        if ($userId && Reflection::hasReflectedToday($userId)) {
+        if (($userId && Reflection::hasReflectedToday($userId)) || !empty($_SESSION[$sessionKey])) {
             View::render('reflections.already_completed', [
                 'scenario' => $scenario,
                 'message' => "You've already reflected today!"
@@ -59,6 +63,7 @@ class ReflectionController {
 
         // Record response
         Reflection::recordResponse($userId, $scenarioId, $optionId);
+        $_SESSION[$sessionKey] = true;
 
         // Render feedback view (or partial if HTMX request)
         $isHtmx = isset($_SERVER['HTTP_HX_REQUEST']);
